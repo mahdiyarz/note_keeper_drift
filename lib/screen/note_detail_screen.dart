@@ -114,21 +114,35 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
   }
 
   void _saveToDb() {
-    log('pressed save');
-    log(_titleController.text);
-    log(_descriptionController.text);
-    db
-        .insertNote(
-          NoteCompanion(
-            title: dr.Value(_titleController.text),
-            description: dr.Value(_descriptionController.text),
-            color: const dr.Value(1),
-            priority: const dr.Value(1),
-          ),
-        )
-        .then(
-          (value) => Navigator.pop(context, true),
-        );
+    if (widget.noteCompanion.id.present) {
+      log('pressed save editing');
+      db
+          .updateNote(
+            NoteData(
+                id: widget.noteCompanion.id.value,
+                title: _titleController.text,
+                description: _descriptionController.text,
+                priority: 1,
+                color: 1),
+          )
+          .then(
+            (value) => Navigator.pop(context, true),
+          );
+    } else {
+      log('pressed save new note');
+      db
+          .insertNote(
+            NoteCompanion(
+              title: dr.Value(_titleController.text),
+              description: dr.Value(_descriptionController.text),
+              color: const dr.Value(1),
+              priority: const dr.Value(1),
+            ),
+          )
+          .then(
+            (value) => Navigator.pop(context, true),
+          );
+    }
   }
 
   void _deleteNote() {
