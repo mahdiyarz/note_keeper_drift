@@ -16,10 +16,10 @@ class NoteGridTile extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 8,
-        ),
+        // margin: const EdgeInsets.symmetric(
+        //   horizontal: 10,
+        //   vertical: 8,
+        // ),
         padding: const EdgeInsets.symmetric(
           horizontal: 10,
           vertical: 8,
@@ -32,10 +32,13 @@ class NoteGridTile extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  noteData.title,
-                  style: Theme.of(context).textTheme.titleSmall,
+                Expanded(
+                  child: Text(
+                    noteData.title,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
                 ),
                 Text(
                   _getPriority(noteData.priority),
