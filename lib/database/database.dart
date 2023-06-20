@@ -57,4 +57,10 @@ class MyDatabase extends _$MyDatabase {
     log('deleting');
     return await delete(note).delete(noteData);
   }
+
+  //? update a note
+  Future<bool> updateNote(NoteData noteData) async {
+    log('updating');
+    return await update(note).replace(noteData);
+  }
 }
