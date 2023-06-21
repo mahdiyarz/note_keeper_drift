@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../database/database.dart';
+import '../widgets/colors_picker.dart';
 import '../widgets/priority_picker.dart';
 
 class NoteDetailScreen extends StatefulWidget {
@@ -45,6 +46,7 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
     db = Provider.of<MyDatabase>(context);
 
     return Scaffold(
+      backgroundColor: colors[colorLevel],
       appBar: _getDetailAppBar(),
       body: Container(
         padding: const EdgeInsets.symmetric(
@@ -59,6 +61,17 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
               onTap: (selectedIndex) {
                 log(selectedIndex.toString());
                 priorityLevel = selectedIndex;
+                setState(() {});
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ColorsPicker(
+              index: colorLevel,
+              onTap: (selectedColor) {
+                log(selectedColor.toString());
+                colorLevel = selectedColor;
                 setState(() {});
               },
             ),
@@ -97,7 +110,7 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
 
   _getDetailAppBar() {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: colors[colorLevel],
       leading: IconButton(
         onPressed: () => Navigator.of(context).pop(),
         icon: const Icon(
