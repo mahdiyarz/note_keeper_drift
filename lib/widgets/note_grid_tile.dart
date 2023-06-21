@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../database/database.dart';
+import 'colors_picker.dart';
 
 class NoteGridTile extends StatelessWidget {
   final NoteData noteData;
@@ -25,8 +26,10 @@ class NoteGridTile extends StatelessWidget {
           vertical: 8,
         ),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: Colors.black)),
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: Colors.black, width: 2),
+          color: colors[noteData.color],
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -72,9 +75,9 @@ class NoteGridTile extends StatelessWidget {
 
   _getPriority(int priority) {
     switch (priority) {
-      case 1:
-        return '!!!';
       case 2:
+        return '!!!';
+      case 1:
         return '!!';
       default:
         return '!';
