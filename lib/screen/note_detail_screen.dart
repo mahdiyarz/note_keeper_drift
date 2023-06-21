@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../database/database.dart';
+import '../widgets/priority_picker.dart';
 
 class NoteDetailScreen extends StatefulWidget {
   final String title;
@@ -20,6 +21,8 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
   late MyDatabase db;
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  int priorityLevel = 0;
+  int colorLevel = 0;
 
   @override
   void dispose() {
@@ -29,10 +32,17 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    db = Provider.of<MyDatabase>(context);
+  void initState() {
     _titleController.text = widget.noteCompanion.title.value;
     _descriptionController.text = widget.noteCompanion.description.value;
+    priorityLevel = widget.noteCompanion.priority.value;
+    colorLevel = widget.noteCompanion.color.value;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    db = Provider.of<MyDatabase>(context);
 
     return Scaffold(
       appBar: _getDetailAppBar(),
@@ -44,6 +54,17 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
         width: double.infinity,
         child: Column(
           children: [
+            PriorityPicker(
+              index: priorityLevel,
+              onTap: (selectedIndex) {
+                log(selectedIndex.toString());
+                priorityLevel = selectedIndex;
+                setState(() {});
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             TextFormField(
               controller: _titleController,
               decoration: InputDecoration(
@@ -122,8 +143,8 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
                 id: widget.noteCompanion.id.value,
                 title: _titleController.text,
                 description: _descriptionController.text,
-                priority: 1,
-                color: 1),
+                priority: priorityLevel,
+                color: colorLevel),
           )
           .then(
             (value) => Navigator.pop(context, true),
@@ -135,8 +156,8 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
             NoteCompanion(
               title: dr.Value(_titleController.text),
               description: dr.Value(_descriptionController.text),
-              color: const dr.Value(1),
-              priority: const dr.Value(1),
+              color: dr.Value(priorityLevel),
+              priority: dr.Value(colorLevel),
             ),
           )
           .then(
