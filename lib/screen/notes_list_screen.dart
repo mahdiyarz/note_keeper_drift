@@ -59,8 +59,8 @@ class _NotesListScreenState extends State<NotesListScreen> {
           const NoteCompanion(
             title: Value(''),
             description: Value(''),
-            color: Value(1),
-            priority: Value(1),
+            color: Value(0),
+            priority: Value(0),
           ),
         ),
       ),
